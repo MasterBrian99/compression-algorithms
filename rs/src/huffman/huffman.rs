@@ -14,7 +14,7 @@ pub struct Node {
 impl PartialEq for Node {
     fn eq(&self, other: &Self) -> bool {
         self.weight == other.weight
-        // TODO
+        
     }
 }
 impl Ord for Node {
@@ -68,9 +68,7 @@ impl Huffman {
     }
 
     pub fn create_tree_item(queue:&mut BinaryHeap<Node> )->Option<Box<Node>> {
-        while queue.len()>1 { //fuck meeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-            //take first to
-            // 0,1,1,1,2
+        while queue.len()>1 { 
             let smallest1=queue.pop().unwrap();
             let smallest2=queue.pop().unwrap();
 

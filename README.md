@@ -3,7 +3,7 @@
 - [x] Run-Length Encoding (RLE)
   - [x] rust
   - [ ] typescript
-- [ ] Huffman Coding
+- [x] Huffman Coding
   - [x] rust
   - [x] typescript
 - [ ] Lempel-Ziv-Welch (LZW)
