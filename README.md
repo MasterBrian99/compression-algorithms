@@ -4,7 +4,7 @@
   - [x] rust
   - [ ] typescript
 - [ ] Huffman Coding
-  - [ ] rust
+  - [x] rust
   - [x] typescript
 - [ ] Lempel-Ziv-Welch (LZW)
 - [ ] DEFLATE (Combination of LZ77 and Huffman Coding)
