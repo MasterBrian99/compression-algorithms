@@ -7,8 +7,9 @@
   - [x] rust
   - [x] typescript
 - [ ] Lempel-Ziv-Welch (LZW)
-- [ ] DEFLATE (Combination of LZ77 and Huffman Coding)
-- [ ] Burrows-Wheeler Transform (BWT)
+  - [x] rust
+  - [ ] typescript
+
 
 ## Resources
 
