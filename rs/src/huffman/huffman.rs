@@ -1,6 +1,6 @@
 use std::{
     char,
-    collections::{BinaryHeap, HashMap}
+    collections::{BinaryHeap, HashMap},
 };
 
 #[derive(Debug, Eq)]
@@ -14,7 +14,6 @@ pub struct Node {
 impl PartialEq for Node {
     fn eq(&self, other: &Self) -> bool {
         self.weight == other.weight
-        // TODO
     }
 }
 impl Ord for Node {
@@ -35,14 +34,14 @@ impl Huffman {
     pub fn new() -> Self {
         Self { root: None }
     }
-    pub fn generate_code(&mut self, input: &str)->HashMap<char, String> {
+    pub fn generate_code(&mut self, input: &str) -> HashMap<char, String> {
         let freq_map: HashMap<char, usize> = Self::count_freq(input);
         let mut queue: BinaryHeap<Node> = Self::create_queue(&freq_map);
-        self.root=Self::create_tree_item(&mut queue);
-        let mut mapped=HashMap::new();
-        if let Some(ro)= &self.root{
+        self.root = Self::create_tree_item(&mut queue);
+        let mut mapped = HashMap::new();
+        if let Some(ro) = &self.root {
             // do things.idk
-            Self::build_map_code(ro,&mut mapped, String::new());
+            Self::build_map_code(ro, &mut mapped, String::new());
         }
         mapped
     }
@@ -67,67 +66,62 @@ impl Huffman {
         queue
     }
 
-    pub fn create_tree_item(queue:&mut BinaryHeap<Node> )->Option<Box<Node>> {
-        while queue.len()>1 { //fuck meeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-            //take first to
-            // 0,1,1,1,2
-            let smallest1=queue.pop().unwrap();
-            let smallest2=queue.pop().unwrap();
+    pub fn create_tree_item(queue: &mut BinaryHeap<Node>) -> Option<Box<Node>> {
+        while queue.len() > 1 {
+            let smallest1 = queue.pop().unwrap();
+            let smallest2 = queue.pop().unwrap();
 
-            let parent=Node{
-                weight:smallest1.weight+smallest2.weight,
-                left:Some(Box::new(smallest1)),
-                right:Some(Box::new(smallest2)),
-                symbol:None,
+            let parent = Node {
+                weight: smallest1.weight + smallest2.weight,
+                left: Some(Box::new(smallest1)),
+                right: Some(Box::new(smallest2)),
+                symbol: None,
             };
             queue.push(parent);
         }
 
         queue.pop().map(Box::new)
-
     }
-    pub fn build_map_code(node: &Node,map:&mut HashMap<char,String>,path:String){
-        if let Some(symbol)=node.symbol {
-            map.insert(symbol,path);
-        }else{
-            if let Some(left)=&node.left{
-                Self::build_map_code(left, map,format!("{}0",path));
+    pub fn build_map_code(node: &Node, map: &mut HashMap<char, String>, path: String) {
+        if let Some(symbol) = node.symbol {
+            map.insert(symbol, path);
+        } else {
+            if let Some(left) = &node.left {
+                Self::build_map_code(left, map, format!("{}0", path));
             }
-            if let Some(right)=&node.right {
-                Self::build_map_code(right, map, format!("{}1",path));
+            if let Some(right) = &node.right {
+                Self::build_map_code(right, map, format!("{}1", path));
             }
         }
-
     }
-    pub fn compression(&self,mapped:&HashMap<char,String>,text:&str)->String{
-
-        text.chars().map(|char|mapped.get(&char).unwrap().clone()).collect()
-
+    pub fn compression(&self, mapped: &HashMap<char, String>, text: &str) -> String {
+        text.chars()
+            .map(|char| mapped.get(&char).unwrap().clone())
+            .collect()
     }
-    pub fn decompress(&self,char_bits:&str)->String{
-        let mut decoded_text=String::new();
-        let mut current=self.root.as_deref();
+    pub fn decompress(&self, char_bits: &str) -> String {
+        let mut decoded_text = String::new();
+        let mut current = self.root.as_deref();
 
-        for bit in char_bits.chars(){
+        for bit in char_bits.chars() {
             match current {
                 Some(node) => {
-                    current=if bit=='0'{
+                    current = if bit == '0' {
                         node.left.as_deref()
-                    }else{
+                    } else {
                         node.right.as_deref()
                     };
-                    if let Some(node)=current {
-                        if let Some(symbol)=node.symbol {
+                    if let Some(node) = current {
+                        if let Some(symbol) = node.symbol {
                             decoded_text.push(symbol);
-                            current=self.root.as_deref()
+                            current = self.root.as_deref()
                         }
                     }
-                },
-                None =>break,
+                }
+                None => break,
             }
-        };
+        }
         decoded_text
-
     }
 }
 
@@ -154,21 +148,21 @@ mod tests {
         println!("{:?}", queue);
     }
     #[test]
-    fn test_compress(){
-        let input="AAABB";
-        let mut compresser=Huffman::new();
-        let codes=compresser.generate_code(input);
-        let compressed=compresser.compression(&codes, input);
-        assert_eq!(compressed.len(),5);
+    fn test_compress() {
+        let input = "AAABB";
+        let mut compresser = Huffman::new();
+        let codes = compresser.generate_code(input);
+        let compressed = compresser.compression(&codes, input);
+        assert_eq!(compressed.len(), 5);
     }
 
     #[test]
-    fn test_decompress(){
-        let input="AAABB";
-        let mut compressor=Huffman::new();
-        let codes=compressor.generate_code(input);
-        let compressed=compressor.compression(&codes, input);
-        let decompressed=compressor.decompress(&compressed);
-        assert_eq!(decompressed,input);
+    fn test_decompress() {
+        let input = "AAABB";
+        let mut compressor = Huffman::new();
+        let codes = compressor.generate_code(input);
+        let compressed = compressor.compression(&codes, input);
+        let decompressed = compressor.decompress(&compressed);
+        assert_eq!(decompressed, input);
     }
 }

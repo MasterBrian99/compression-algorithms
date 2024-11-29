@@ -3,12 +3,13 @@
 - [x] Run-Length Encoding (RLE)
   - [x] rust
   - [ ] typescript
-- [ ] Huffman Coding
+- [x] Huffman Coding
   - [x] rust
   - [x] typescript
 - [ ] Lempel-Ziv-Welch (LZW)
-- [ ] DEFLATE (Combination of LZ77 and Huffman Coding)
-- [ ] Burrows-Wheeler Transform (BWT)
+  - [x] rust
+  - [ ] typescript
+
 
 ## Resources
 

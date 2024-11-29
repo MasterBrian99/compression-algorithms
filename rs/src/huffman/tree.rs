@@ -21,7 +21,7 @@ pub struct BinaryTree<T: Ord> {
 }
 
 impl<T: Ord> BinaryTree<T> {
-  pub fn new() -> Self {
+    pub fn new() -> Self {
         Self {
             root: Subtree::new(),
         }
@@ -31,7 +31,7 @@ impl<T: Ord> BinaryTree<T> {
         self.root.insert(value);
     }
 
-    pub  fn has(&self, value: &T) -> bool {
+    pub fn has(&self, value: &T) -> bool {
         self.root.has(value)
     }
 
@@ -45,7 +45,7 @@ impl<T: Ord> Subtree<T> {
         Self(None)
     }
 
-    pub  fn insert(&mut self, value: T) {
+    pub fn insert(&mut self, value: T) {
         match &mut self.0 {
             None => self.0 = Some(Box::new(Node::new(value))),
             Some(n) => match value.cmp(&n.value) {
@@ -56,7 +56,7 @@ impl<T: Ord> Subtree<T> {
         }
     }
 
-    pub   fn has(&self, value: &T) -> bool {
+    pub fn has(&self, value: &T) -> bool {
         match &self.0 {
             None => false,
             Some(n) => match value.cmp(&n.value) {
@@ -67,7 +67,7 @@ impl<T: Ord> Subtree<T> {
         }
     }
 
-    pub   fn len(&self) -> usize {
+    pub fn len(&self) -> usize {
         match &self.0 {
             None => 0,
             Some(n) => 1 + n.left.len() + n.right.len(),
